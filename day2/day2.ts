@@ -39,6 +39,7 @@ const isPart2Safe = (cleanDataRow: number[]) => {
   if (isPart1Safe(cleanDataRow)) {
     return true;
   } else {
+    // Don't love this exhaustive enumeration, I know there is a better way
     for (let j = 0; j < cleanDataRow.length; j++) {
       const slice = cleanDataRow
         .slice(0, j)
@@ -47,8 +48,13 @@ const isPart2Safe = (cleanDataRow: number[]) => {
     }
     return false;
   }
-  /* This branch was only ever done when we had more than one bad diff,
-      that was probably the issue
+  /*
+  //This branch was only ever done when we had more than one bad diff,
+  //    that was probably the issue. It would have been better to have used a
+  //    different function in place of `isPart1Safe`, a function that would not
+  //    have computed normal diffs but instead would have
+
+
   } else {
       for (let i = 0; i < diffs.length; i++) {
         if (
