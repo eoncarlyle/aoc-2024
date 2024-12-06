@@ -61,13 +61,25 @@ const isAtBoardEdge = (position: Position, rows: number, cols: number) => {
   );
 };
 
+const getChar = (direction: Direction) => {
+  if (direction === Direction.Up) {
+    return "^";
+  } else if (direction === Direction.Down) {
+    return "v";
+  } else if (direction === Direction.Left) {
+    return "<";
+  } else {
+    return ">";
+  }
+};
+
 const getPart1 = (rawData: string) => {
   const board = rawData
     .split("\n")
     .filter((row) => row.length > 0)
     .map((row) => row.split(""));
 
-  const map = board;
+  const map = structuredClone(board);
 
   const [guardRow, guardCol] = getGuardPosition(board);
   var position = { row: guardRow, col: guardCol };
@@ -77,18 +89,21 @@ const getPart1 = (rawData: string) => {
 
   while (!isAtBoardEdge(position, rawData.length, rawData[0].length)) {
     var nextPosition = getNextPosition(position, direction);
-
-    //console.log(map.map((row) => row.join("")).join("\n"));
-    //console.log("\n\n");
-    console.log(nextPosition, direction);
-    console.log(board[nextPosition.row][nextPosition.col]);
+    console.log(map.map((row) => row.join("")).join("\n"));
+    console.log("\n\n\n");
     if (board[nextPosition.row][nextPosition.col] !== ".") {
+      console.log(board[nextPosition.row][nextPosition.col]);
+      console.log(nextPosition.row);
+      console.log(nextPosition.col);
       direction = getTurn(direction);
     } else {
-      position = nextPosition;
       map[position.row][position.col] = "X";
+      position = nextPosition;
+      map[position.row][position.col] = getChar(direction);
     }
   }
+  console.log(position);
+  console.log(map.map((row) => row.join("")).join("\n"));
   return -1;
 };
 
