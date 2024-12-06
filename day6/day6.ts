@@ -86,15 +86,12 @@ const getPart1 = (rawData: string) => {
   var direction = Direction.Up;
 
   map[guardRow][guardCol] = "X";
+  board[guardRow][guardCol] = ".";
 
-  while (!isAtBoardEdge(position, rawData.length, rawData[0].length)) {
+  while (!isAtBoardEdge(position, board.length, board[0].length)) {
     var nextPosition = getNextPosition(position, direction);
-    console.log(map.map((row) => row.join("")).join("\n"));
-    console.log("\n\n\n");
+
     if (board[nextPosition.row][nextPosition.col] !== ".") {
-      console.log(board[nextPosition.row][nextPosition.col]);
-      console.log(nextPosition.row);
-      console.log(nextPosition.col);
       direction = getTurn(direction);
     } else {
       map[position.row][position.col] = "X";
@@ -102,10 +99,14 @@ const getPart1 = (rawData: string) => {
       map[position.row][position.col] = getChar(direction);
     }
   }
-  console.log(position);
-  console.log(map.map((row) => row.join("")).join("\n"));
-  return -1;
+  //console.log(position);
+  //console.log(map.map((row) => row.join("")).join("\n"));
+  return (
+    map
+      .map((row) => row.filter((elem) => elem === "X").length)
+      .reduce((a, b) => a + b, 0) + 1
+  );
 };
 
-const isProd = false;
+const isProd = true;
 console.log(getPart1(getRawData(isProd)));
